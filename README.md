@@ -15,4 +15,6 @@ go tool cover -html=coverage.out
 5. Avoid test dependencies
 6. Update tests with code changes
 
-Source: https://www.ceos3c.com/golang/go-unit-testing-a-practical-guide-for-writing-reliable-tests/
+References:
+- https://www.ceos3c.com/golang/go-unit-testing-a-practical-guide-for-writing-reliable-tests/
+- https://dev.to/zpeters/testing-in-go-with-table-drive-tests-and-testify-kd4
