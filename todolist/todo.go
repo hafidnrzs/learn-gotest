@@ -52,11 +52,44 @@ func createTaskHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(newTask)
 }
 
+func getAllTasksHandler(w http.ResponseWriter, r *http.Request) {
+	// Lock the mutex to safely read from the tasks map
+	mu.Lock()
+	defer mu.Unlock()
+
+	taskSlice := make([]Task, 0, len(tasks))
+	for _, task := range tasks {
+		taskSlice = append(taskSlice, task)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	json.NewEncoder(w).Encode(taskSlice)
+}
+
+func getTaskByIdHandler(w http.ResponseWriter, r *http.Request) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	id := chi.URLParam(r, "id")
+	task, ok := tasks[id]
+	if !ok {
+		http.Error(w, "task not found", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	json.NewEncoder(w).Encode(task)
+}
+
 // main function to set up the router and start the server
 func main() {
 	r := chi.NewRouter()
 
 	r.Post("/tasks", createTaskHandler)
+	r.Get("/tasks", getAllTasksHandler)
+	r.Get("/tasks/{id}", getTaskByIdHandler)
 
 	log.Printf("Server starting on port 8080...")
 	if err := http.ListenAndServe(":8080", r); err != nil {
