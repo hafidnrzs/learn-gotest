@@ -18,3 +18,4 @@ go tool cover -html=coverage.out
 References:
 - https://www.ceos3c.com/golang/go-unit-testing-a-practical-guide-for-writing-reliable-tests/
 - https://dev.to/zpeters/testing-in-go-with-table-drive-tests-and-testify-kd4
+- https://medium.com/@ullauri.byron/using-httptest-server-in-go-to-mock-and-test-external-api-calls-68ce444cf934
